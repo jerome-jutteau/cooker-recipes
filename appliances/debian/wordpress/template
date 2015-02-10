@@ -1,0 +1,55 @@
+{
+
+  "builders" : [
+
+   {
+     "type": "outscale-ebs",
+     "access_key": "[[AWS_AK]]",
+     "secret_key": "[[AWS_SK]]",
+     "region": "[[REGION]]",
+     "instance_type": "t1.micro",
+     "source_ami": "[[SOURCE_AMI]]",
+     "ami_name": "Wordpress Latest {{timestamp}}",
+     "ssh_username": "root"
+  }
+
+   ],
+
+  "provisioners": [
+
+   {
+     "type": "shell",
+     "script": "scripts/debian/upgrade.sh"
+   },
+
+   {
+     "type": "shell",
+     "script": "setup.sh"
+   },
+ 
+   {
+     "type": "file",
+     "source": "motd",
+     "destination": "/etc/motd"
+   },
+
+   {
+     "type": "file",
+     "source": "rc.local",
+     "destination": "/etc/rc.local"
+   },
+
+   {
+     "type": "file",
+     "source": "wordpress_apache2",
+     "destination": "/etc/apache2/sites-available/wordpress"
+   },
+
+   {
+     "type": "shell",
+     "script": "finish.sh"
+   }
+
+  ]
+
+}

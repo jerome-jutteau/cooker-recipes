@@ -1,0 +1,55 @@
+{
+
+  "builders" : [
+
+   {
+     "type": "outscale-ebs",
+     "access_key": "[[AWS_AK]]",
+     "secret_key": "[[AWS_SK]]",
+     "region": "[[REGION]]",
+     "instance_type": "t1.micro",
+     "source_ami": "[[SOURCE_AMI]]",
+     "ami_name": "Magento 1.9.0 {{timestamp}}",
+     "ssh_username": "root"
+  }
+
+   ],
+
+  "provisioners": [
+
+   {
+     "type": "shell",
+     "script": "scripts/debian/upgrade.sh"
+   },
+
+   {
+     "type": "shell",
+     "script": "setup.sh"
+   },
+ 
+   {
+     "type": "file",
+     "source": "motd",
+     "destination": "/etc/motd"
+   },
+  
+   {
+     "type": "file",
+     "source": "rc.local",
+     "destination": "/etc/rc.local"
+   },
+
+   {
+     "type": "file",
+     "source": "magento_apache2",
+     "destination": "/etc/apache2/sites-available/magento"
+   },
+
+   {
+     "type": "shell",
+     "script": "finish.sh"
+   }
+
+  ]
+
+}

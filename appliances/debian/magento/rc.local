@@ -1,0 +1,8 @@
+/bin/mkdir -p /root/.ssh        #LINE_TO_STRIP
+wget  http://169.254.169.254/latest/meta-data/public-keys/0/openssh-key -O - > /root/.ssh/authorized_keys #LINE_TO_STRIP
+/bin/chmod 700 /root/.ssh -R #LINE_TO_STRIP
+wget http://169.254.169.254/latest/meta-data/local-hostname -O - | cut -d '.' -f 1 > /etc/hostname; #LINE_TO_STRIP
+hostname -F /etc/hostname #LINE_TO_STRIP
+sed -i '/^.*LINE_TO_STRIP.*$/d' /etc/rc.local; #LINE_TO_STRIP
+exit 0
+
